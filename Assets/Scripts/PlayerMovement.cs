@@ -32,13 +32,26 @@ public class PlayerMovement : MonoBehaviour
 
     void Look()
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        //float mouseX = Input.GetAxisRaw("Mouse X");
+        //float mouseY = Input.GetAxisRaw("Mouse Y");
 
-        float angle = Mathf.Atan2(mouseX, mouseY) * Mathf.Rad2Deg;
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 0;
 
-        transform.eulerAngles = new Vector3 (transform.eulerAngles.x, transform.eulerAngles.y, -angle);
+        Vector3 objectPos = Camera.main.ScreenToWorldPoint(transform.position);
+
+        float mouseX = mousePos.x - objectPos.x;
+        float mouseY = mousePos.y - objectPos.y;
+
+        float angle = Mathf.Atan2(mouseY, mouseX) * Mathf.Rad2Deg;
+        //angle -= 90;
+
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        //transform.eulerAngles = new Vector3 (transform.eulerAngles.x, transform.eulerAngles.y, -angle);
 
         print(transform.eulerAngles.z - angle);
+
+
     }
 }
